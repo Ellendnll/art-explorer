@@ -1,0 +1,109 @@
+$vinho: #7b2d3b;
+$dourado: #c9a227;
+$bege: #faf6ef;
+$texto: #2b2b2b;
+$cinza: #6b6b6b;
+
+.conteudo-detalhes {
+  --background: #{$bege};
+}
+
+.estado-central {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  color: $cinza;
+  text-align: center;
+  padding: 24px;
+
+  p {
+    margin-top: 12px;
+  }
+}
+
+.imagem-container {
+  width: 100%;
+  background: #ece5d8;
+
+  img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    display: block;
+  }
+}
+
+.informacoes {
+  padding: 20px;
+
+  .etiqueta {
+    --background: #{$dourado};
+    --color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px 0;
+  }
+
+  .titulo-obra {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.6rem;
+    color: $texto;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+  }
+
+  .artista {
+    color: $vinho;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+  }
+
+  .linha-dados {
+    display: flex;
+    gap: 24px;
+  }
+
+  .dado {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+
+    .rotulo {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: $cinza;
+      letter-spacing: 0.5px;
+    }
+
+    .valor {
+      font-size: 1rem;
+      color: $texto;
+    }
+  }
+
+  .bloco-descricao {
+    margin-top: 8px;
+    margin-bottom: 24px;
+
+    h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.1rem;
+      color: $vinho;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: $texto;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+  }
+
+  .botao-favoritar {
+    --border-radius: 12px;
+    margin-top: 8px;
+  }
+}
