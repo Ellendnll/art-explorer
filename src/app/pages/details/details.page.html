@@ -1,0 +1,95 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/explorar" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalhes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="conteudo-detalhes">
+
+  @if (carregando) {
+    <div class="estado-central">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Carregando obra...</p>
+    </div>
+  } @else if (erro || !obra) {
+    <div class="estado-central">
+      <p>Não foi possível carregar esta obra.</p>
+    </div>
+  } @else {
+
+    <div class="imagem-container">
+      <img
+        [src]="obra.imageUrl"
+        [alt]="obra.title"
+      />
+    </div>
+
+    <div class="informacoes">
+
+      @if (obra.artwork_type_title) {
+        <ion-chip class="etiqueta">
+          {{ obra.artwork_type_title | uppercase }}
+        </ion-chip>
+      }
+
+      <h1 class="titulo-obra">{{ obra.title }}</h1>
+
+      @if (obra.artist_title) {
+        <p class="artista">{{ obra.artist_title | titlecase }}</p>
+      }
+
+      <div class="linha-dados">
+        @if (obra.date_display) {
+          <div class="dado">
+            <span class="rotulo">Ano</span>
+            <span class="valor">{{ obra.date_display }}</span>
+          </div>
+        }
+
+        @if (obra.date_start) {
+          <div class="dado">
+            <span class="rotulo">Século</span>
+            <span class="valor">{{ obra.date_start | seculo }}</span>
+          </div>
+        }
+      </div>
+
+      @if (obra.style_title) {
+        <div class="dado">
+          <span class="rotulo">Estilo</span>
+          <span class="valor">{{ obra.style_title | titlecase }}</span>
+        </div>
+      }
+
+      @if (obra.artwork_type_title) {
+        <div class="dado">
+          <span class="rotulo">Tipo</span>
+          <span class="valor">{{ obra.artwork_type_title | titlecase }}</span>
+        </div>
+      }
+
+      @if (obra.description || obra.short_description) {
+        <div class="bloco-descricao">
+          <h2>Descrição</h2>
+          <p>{{ (obra.description || obra.short_description) | descricaoCurta:400 }}</p>
+        </div>
+      }
+
+      <ion-button
+        expand="block"
+        class="botao-favoritar"
+        [color]="favorito ? 'primary' : 'medium'"
+        (click)="alternarFavorito()"
+      >
+        <ion-icon
+          slot="start"
+          [name]="favorito ? 'heart' : 'heart-outline'">
+        </ion-icon>
+        {{ favorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}
+      </ion-button>
+    </div>
+  }
+</ion-content>
