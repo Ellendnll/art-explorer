@@ -1,0 +1,7 @@
+{
+  "name": "art-explore",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
