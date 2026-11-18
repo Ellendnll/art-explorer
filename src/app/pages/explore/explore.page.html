@@ -1,0 +1,99 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="explore-toolbar">
+    <ion-title>Explorar</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="explore-toolbar">
+    <ion-searchbar
+      [value]="termo"
+      placeholder="Pesquise obras, artistas ou estilos"
+      [debounce]="0"
+      (ionInput)="aoDigitar($event)"
+      (ionClear)="limpar()"
+      inputmode="search"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="explore-content">
+  <!-- Sugestões rápidas -->
+  <div class="chips">
+    @for (s of sugestoes; track s) {
+      <button type="button" class="chip" [class.chip--ativo]="termo === s" (click)="usarSugestao(s)">
+        {{ s }}
+      </button>
+    }
+  </div>
+
+  <!-- Carregando -->
+  @if (carregando()) {
+    <div class="estado">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Buscando obras...</p>
+    </div>
+  }
+
+  <!-- Erro -->
+  @if (!carregando() && erro()) {
+    <div class="estado estado--erro">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>{{ erro() }}</p>
+      <ion-button fill="outline" (click)="tentarNovamente()">Tentar novamente</ion-button>
+    </div>
+  }
+
+  <!-- Nenhum resultado -->
+  @if (!carregando() && !erro() && obras().length === 0) {
+    <div class="estado">
+      <ion-icon name="search-outline"></ion-icon>
+      <p>Nenhuma obra encontrada para "{{ termo }}".</p>
+    </div>
+  }
+
+  <!-- Lista de obras -->
+  @if (!carregando() && obras().length > 0) {
+    <div class="grade">
+      @for (obra of obras(); track obra.id) {
+        <article class="card" (click)="abrirDetalhes(obra)">
+          <div class="card__imagem">
+            <img
+              [src]="obra.imageUrl"
+              [alt]="obra.title"
+              loading="lazy"
+              (error)="aoFalharImagem($event)"
+            />
+            <button
+              type="button"
+              class="card__favorito"
+              [attr.aria-label]="favoritosService.isFavorite(obra.id) ? 'Remover dos favoritos' : 'Salvar nos favoritos'"
+              (click)="favoritar(obra, $event)"
+            >
+              <ion-icon [name]="favoritosService.isFavorite(obra.id) ? 'heart' : 'heart-outline'"></ion-icon>
+            </button>
+          </div>
+
+          <div class="card__info">
+            <h3>{{ obra.title }}</h3>
+            @if (obra.artist_title) {
+              <p class="card__artista">{{ obra.artist_title }}</p>
+            }
+            @if (obra.date_display) {
+              <p class="card__data">{{ obra.date_display }}</p>
+            }
+          </div>
+        </article>
+      }
+    </div>
+
+    @if (temMais()) {
+      <div class="mais">
+        <ion-button fill="outline" [disabled]="carregandoMais()" (click)="carregarMais()">
+          @if (carregandoMais()) {
+            <ion-spinner name="dots"></ion-spinner>
+          } @else {
+            Carregar mais
+          }
+        </ion-button>
+      </div>
+    }
+  }
+</ion-content>

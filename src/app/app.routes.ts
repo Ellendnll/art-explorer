@@ -10,4 +10,7 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  { path: 'explorar',
+     loadComponent: () => import('./pages/explore/explore.page').then(m => m.ExplorePage)
+     }
 ];

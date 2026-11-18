@@ -1,0 +1,22 @@
+
+{
+  "/artic": {
+    "target": "https://api.artic.edu",
+    "secure": true,
+    "changeOrigin": true,
+    "headers": {
+      "AIC-User-Agent": "ArtExplore (projeto academico)"
+    },
+    "pathRewrite": {
+      "^/artic": ""
+    }
+  },
+  "/iiif": {
+    "target": "https://www.artic.edu",
+    "secure": true,
+    "changeOrigin": true,
+    "headers": {
+      "AIC-User-Agent": "ArtExplore (projeto academico)"
+    }
+  }
+}
