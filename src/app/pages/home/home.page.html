@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar-artexplore">
+    <div class="brand-header" slot="start">
+      <img src="assets/images/logo.png" alt="Logo ArtExplore" class="brand-logo" />
+      <ion-title>ArtExplore</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="home-content">
+  <section class="hero-section">
+    <span class="hero-tag">Art Institute of Chicago</span>
+    <h1>Bem-vindo ao ArtExplore</h1>
+    <p>
+      Explore obras de arte, descubra artistas e mergulhe no acervo do museu.
+    </p>
+    <ion-button routerLink="/explorar" class="btn-explorar">
+      Explorar acervo
+    </ion-button>
+  </section>
+
+  <section class="highlights-section">
+    <div class="section-header">
+      <h2>Obras em destaque</h2>
+    </div>
+
+    @if (carregando) {
+      <div class="status-box">
+        <ion-spinner></ion-spinner>
+        <p>Carregando obras em destaque...</p>
+      </div>
+    } @else if (erroCarregar) {
+      <div class="status-box">
+        <p>Não foi possível carregar as obras no momento.</p>
+      </div>
+    } @else {
+      <div class="destaques-grid">
+        @for (obra of destaques; track obra.id) {
+          <ion-card [routerLink]="['/detalhes', obra.id]" class="obra-card">
+            <img
+              [src]="obra.imageUrl || 'assets/images/imagem-padrao.png'"
+              [alt]="obra.title"
+              class="obra-imagem"
+            />
+            <ion-card-header>
+              <ion-card-title>{{ obra.title }}</ion-card-title>
+              <ion-card-subtitle>
+                {{ obra.artist_title || 'Artista desconhecido' }}
+              </ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+        }
+      </div>
+    }
+  </section>
+</ion-content>
+
+<app-bottom-menu />

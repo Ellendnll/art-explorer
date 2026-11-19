@@ -18,13 +18,24 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Artwork } from '../../core/models/artwork.model';
 import { FavoritosService } from '../../core/services/favoritos.service';
 import { IMAGEM_PADRAO, ObrasService } from '../../core/services/obras.service';
+import { BottomMenuComponent } from '../../shared/components/bottom-menu/bottom-menu.component';
 
 @Component({
   selector: 'app-explore',
   standalone: true,
   templateUrl: './explore.page.html',
   styleUrls: ['./explore.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonSearchbar, IonButton, IonIcon, IonSpinner],
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonSearchbar,
+    IonButton,
+    IonIcon,
+    IonSpinner,
+    BottomMenuComponent,
+  ],
 })
 export class ExplorePage implements OnInit {
   private readonly obrasService = inject(ObrasService);
@@ -114,11 +125,11 @@ export class ExplorePage implements OnInit {
   }
 
   aoFalharImagem(event: Event): void {
-  const imagem = event.target as HTMLImageElement;
+    const imagem = event.target as HTMLImageElement;
 
-  imagem.onerror = null;
-  imagem.src = this.imagemPadrao;
-}
+    imagem.onerror = null;
+    imagem.src = this.imagemPadrao;
+  }
 
   // ---------------------------------------------------------------------
   // Carregamento de dados

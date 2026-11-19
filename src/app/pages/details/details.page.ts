@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -13,6 +13,7 @@ import { FavoritosService } from '../../core/services/favoritos.service';
 import { Artwork } from '../../core/models/artwork.model';
 import { SeculoPipe } from '../../shared/pipes/seculo.pipe';
 import { DescricaoCurtaPipe } from '../../shared/pipes/descricao-curta.pipe';
+import { BottomMenuComponent } from '../../shared/components/bottom-menu/bottom-menu.component';
 
 @Component({
   selector: 'app-details',
@@ -23,6 +24,7 @@ import { DescricaoCurtaPipe } from '../../shared/pipes/descricao-curta.pipe';
     IonBackButton, IonButton, IonIcon, IonSpinner, IonChip, IonLabel,
     TitleCasePipe, UpperCasePipe,
     SeculoPipe, DescricaoCurtaPipe,
+    BottomMenuComponent,
   ],
   templateUrl: './details.page.html',
   styleUrls: ['./details.page.scss']
@@ -32,6 +34,7 @@ export class DetailsPage implements OnInit {
   private route = inject(ActivatedRoute);
   private obrasService = inject(ObrasService);
   private favoritosService = inject(FavoritosService);
+  private cdr = inject(ChangeDetectorRef);
 
   obra: Artwork | null = null;
   carregando = true;
@@ -43,31 +46,36 @@ export class DetailsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    // Lê o parâmetro :id da rota /detalhes/:id
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.route.paramMap.subscribe((params) => {
+      const id = Number(params.get('id'));
 
-    if (!id) {
-      this.erro = true;
-      this.carregando = false;
-      return;
-    }
+      if (!id) {
+        this.erro = true;
+        this.carregando = false;
+        this.cdr.detectChanges();
+        return;
+      }
 
-    this.carregarObra(id);
+      this.carregarObra(id);
+    });
   }
 
   private carregarObra(id: number): void {
     this.carregando = true;
     this.erro = false;
+    this.cdr.detectChanges();
 
     this.obrasService.getArtworkById(id).subscribe({
       next: (obra) => {
         this.obra = obra;
         this.favorito = this.favoritosService.isFavorite(obra.id);
         this.carregando = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.erro = true;
         this.carregando = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -78,5 +86,6 @@ export class DetailsPage implements OnInit {
     }
     this.favoritosService.toggleFavorite(this.obra);
     this.favorito = this.favoritosService.isFavorite(this.obra.id);
+    this.cdr.detectChanges();
   }
 }

@@ -18,6 +18,7 @@ import { FavoritosService } from '../../core/services/favoritos.service';
 import { IMAGEM_PADRAO } from '../../core/services/obras.service';
 import { DestaqueObraDirective } from '../../shared/directives/destaque-obra.directive';
 import { ImagemFallbackDirective } from '../../shared/directives/imagem-fallback.directive';
+import { BottomMenuComponent } from '../../shared/components/bottom-menu/bottom-menu.component';
 
 @Component({
   selector: 'app-favorites',
@@ -37,6 +38,7 @@ import { ImagemFallbackDirective } from '../../shared/directives/imagem-fallback
     IonIcon,
     DestaqueObraDirective,
     ImagemFallbackDirective,
+    BottomMenuComponent,
   ],
 })
 export class FavoritesPage {

@@ -1,0 +1,33 @@
+<ion-footer class="bottom-menu-footer">
+  <ion-toolbar class="bottom-menu-toolbar">
+    <nav class="menu-nav" aria-label="Navegação principal">
+      <a
+        routerLink="/home"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="menu-item"
+      >
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Home</ion-label>
+      </a>
+
+      <a
+        routerLink="/explorar"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+        <ion-icon name="compass-outline"></ion-icon>
+        <ion-label>Explorar</ion-label>
+      </a>
+
+      <a
+        routerLink="/favoritos"
+        routerLinkActive="active"
+        class="menu-item"
+      >
+        <ion-icon name="heart-outline"></ion-icon>
+        <ion-label>Favoritos</ion-label>
+      </a>
+    </nav>
+  </ion-toolbar>
+</ion-footer>

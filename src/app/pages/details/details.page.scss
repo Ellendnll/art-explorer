@@ -1,11 +1,30 @@
+// Mesma paleta e estilo das páginas Explorar e Favoritos
+$bege: #faf6f0;
 $vinho: #7b2d3b;
-$dourado: #c9a227;
-$bege: #faf6ef;
-$texto: #2b2b2b;
-$cinza: #6b6b6b;
+$dourado: #b8923e;
+$texto: #2b2523;
+$cinza: #7a706b;
+
+ion-header {
+  ion-toolbar {
+    --background: #{$bege};
+    --color: #{$texto};
+
+    ion-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+      color: $vinho;
+    }
+
+    ion-back-button {
+      --color: #{$vinho};
+    }
+  }
+}
 
 .conteudo-detalhes {
   --background: #{$bege};
+  color: $texto;
 }
 
 .estado-central {
@@ -13,97 +32,138 @@ $cinza: #6b6b6b;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 70vh;
-  color: $cinza;
+  gap: 12px;
+  min-height: 60vh;
+  padding: 48px 24px;
   text-align: center;
-  padding: 24px;
+  color: $cinza;
+
+  ion-spinner {
+    color: $vinho;
+  }
 
   p {
-    margin-top: 12px;
+    margin: 0;
+    font-size: 0.9rem;
   }
 }
 
 .imagem-container {
-  width: 100%;
-  background: #ece5d8;
+  margin: 12px 16px 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ece4d8;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 
   img {
     width: 100%;
-    max-height: 420px;
-    object-fit: contain;
+    max-height: 340px;
+    object-fit: cover;
     display: block;
   }
 }
 
 .informacoes {
-  padding: 20px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
 
-  .etiqueta {
-    --background: #{$dourado};
-    --color: #ffffff;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    margin: 0 0 12px 0;
+.etiqueta {
+  --background: transparent;
+  --color: #{$texto};
+  border: 1px solid rgba($dourado, 0.6);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 0 0 10px;
+}
+
+.titulo-obra {
+  margin: 0 0 4px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.45rem;
+  line-height: 1.25;
+  color: $texto;
+}
+
+.artista {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: $vinho;
+}
+
+.linha-dados {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.dado {
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+  .rotulo {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $dourado;
+    margin-bottom: 4px;
   }
 
-  .titulo-obra {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 1.6rem;
+  .valor {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
     color: $texto;
-    margin: 0 0 8px 0;
-    line-height: 1.3;
+    line-height: 1.4;
   }
+}
 
-  .artista {
+.linha-dados .dado {
+  margin-bottom: 0;
+}
+
+.bloco-descricao {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    margin: 0 0 10px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.15rem;
     color: $vinho;
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 0 0 20px 0;
+    border-left: 3px solid $dourado;
+    padding-left: 10px;
   }
 
-  .linha-dados {
-    display: flex;
-    gap: 24px;
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: $cinza;
   }
+}
 
-  .dado {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
-
-    .rotulo {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      color: $cinza;
-      letter-spacing: 0.5px;
-    }
-
-    .valor {
-      font-size: 1rem;
-      color: $texto;
-    }
-  }
-
-  .bloco-descricao {
-    margin-top: 8px;
-    margin-bottom: 24px;
-
-    h2 {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 1.1rem;
-      color: $vinho;
-      margin-bottom: 8px;
-    }
-
-    p {
-      color: $texto;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-  }
-
-  .botao-favoritar {
-    --border-radius: 12px;
-    margin-top: 8px;
-  }
+.botao-favoritar {
+  --background: #{$vinho};
+  --background-hover: #63222e;
+  --background-activated: #63222e;
+  --color: #fff;
+  --border-radius: 20px;
+  --box-shadow: none;
+  text-transform: none;
+  font-weight: 600;
+  margin-top: 8px;
 }
