@@ -9,87 +9,86 @@
 
 <ion-content class="conteudo-detalhes">
 
-  @if (carregando) {
+  @if (carregando()) {
     <div class="estado-central">
       <ion-spinner name="crescent"></ion-spinner>
       <p>Carregando obra...</p>
     </div>
-  } @else if (erro || !obra) {
+  } @else if (erro()) {
     <div class="estado-central">
       <p>Não foi possível carregar esta obra.</p>
     </div>
-  } @else {
+  } @else if (obra(); as o) {
 
     <div class="imagem-container">
-      <img
-        [src]="obra.imageUrl"
-        [alt]="obra.title"
-      />
+      <img [src]="o.imageUrl" [alt]="o.title" />
     </div>
 
     <div class="informacoes">
 
-      @if (obra.artwork_type_title) {
+      @if (o.artwork_type_title) {
         <ion-chip class="etiqueta">
-          {{ obra.artwork_type_title | uppercase }}
+          {{ o.artwork_type_title | uppercase }}
         </ion-chip>
       }
 
-      <h1 class="titulo-obra">{{ obra.title }}</h1>
+      <h1 class="titulo-obra">{{ o.title }}</h1>
 
-      @if (obra.artist_title) {
-        <p class="artista">{{ obra.artist_title | titlecase }}</p>
+      @if (o.artist_title) {
+        <p class="artista">{{ o.artist_title | titlecase }}</p>
       }
 
       <div class="linha-dados">
-        @if (obra.date_display) {
+        @if (o.date_display) {
           <div class="dado">
             <span class="rotulo">Ano</span>
-            <span class="valor">{{ obra.date_display }}</span>
+            <span class="valor">{{ o.date_display }}</span>
           </div>
         }
 
-        @if (obra.date_start) {
+        @if (o.date_start) {
           <div class="dado">
             <span class="rotulo">Século</span>
-            <span class="valor">{{ obra.date_start | seculo }}</span>
+            <span class="valor">{{ o.date_start | seculo }}</span>
           </div>
         }
       </div>
 
-      @if (obra.style_title) {
+      @if (o.style_title) {
         <div class="dado">
           <span class="rotulo">Estilo</span>
-          <span class="valor">{{ obra.style_title | titlecase }}</span>
+          <span class="valor">{{ o.style_title | titlecase }}</span>
         </div>
       }
 
-      @if (obra.artwork_type_title) {
+      @if (o.artwork_type_title) {
         <div class="dado">
           <span class="rotulo">Tipo</span>
-          <span class="valor">{{ obra.artwork_type_title | titlecase }}</span>
+          <span class="valor">{{ o.artwork_type_title | titlecase }}</span>
         </div>
       }
 
-      @if (obra.description || obra.short_description) {
+      @if (o.description || o.short_description) {
         <div class="bloco-descricao">
           <h2>Descrição</h2>
-          <p>{{ (obra.description || obra.short_description) | descricaoCurta:400 }}</p>
+          <p>{{ (o.description || o.short_description) | descricaoCurta:400 }}</p>
         </div>
       }
 
       <ion-button
         expand="block"
         class="botao-favoritar"
-        [color]="favorito ? 'primary' : 'medium'"
+        [color]="favorito() ? 'primary' : 'medium'"
         (click)="alternarFavorito()"
       >
-        <ion-icon
-          slot="start"
-          [name]="favorito ? 'heart' : 'heart-outline'">
-        </ion-icon>
-        {{ favorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}
+        <ion-icon slot="start" [name]="favorito() ? 'heart' : 'heart-outline'"></ion-icon>
+        {{ favorito() ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}
       </ion-button>
+    </div>
+
+  } @else {
+    <div class="estado-central">
+      <p>Obra não encontrada.</p>
     </div>
   }
 </ion-content>
