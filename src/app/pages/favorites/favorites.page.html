@@ -1,0 +1,84 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="favoritos-toolbar">
+    <ion-title>Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="favoritos-content">
+  <!-- @if: lista quando há favoritos / mensagem quando não há -->
+  @if (favoritos().length > 0) {
+    <div class="cabecalho">
+      <h2>Suas obras favoritas</h2>
+      <p>
+        {{ favoritos().length }}
+        {{ favoritos().length === 1 ? 'obra salva' : 'obras salvas' }}
+      </p>
+    </div>
+
+    <div class="lista">
+      <!-- @for: um card para cada obra salva -->
+      @for (obra of favoritos(); track obra.id) {
+        <ion-card appDestaqueObra class="obra-card">
+          <a [routerLink]="['/detalhes', obra.id]" class="obra-card__imagem">
+            <!-- appImagemFallback: troca pela imagem padrão se a imagem falhar -->
+            <img
+              [src]="obra.imageUrl || imagemPadrao"
+              [alt]="obra.title"
+              loading="lazy"
+              appImagemFallback
+            />
+          </a>
+
+          <div class="obra-card__info">
+            <div>
+              <ion-card-title class="obra-card__titulo">{{ obra.title }}</ion-card-title>
+              <ion-card-subtitle class="obra-card__artista">
+                {{ obra.artist_title || 'Artista desconhecido' }}
+              </ion-card-subtitle>
+              @if (obra.date_display) {
+                <p class="obra-card__data">{{ obra.date_display }}</p>
+              }
+            </div>
+
+            <div class="obra-card__acoes">
+              <ion-button class="btn-detalhes" size="small" [routerLink]="['/detalhes', obra.id]">
+                Ver detalhes
+                <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+              </ion-button>
+
+              <ion-button
+                class="btn-remover"
+                fill="clear"
+                size="small"
+                (click)="remover(obra.id)"
+                [attr.aria-label]="'Remover ' + obra.title + ' dos favoritos'"
+              >
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </ion-card>
+      }
+    </div>
+  } @else {
+    <div class="estado">
+      <ion-icon name="heart-outline"></ion-icon>
+      <h2>Nenhuma obra por aqui</h2>
+      <p>Você ainda não salvou nenhuma obra.</p>
+      <p class="estado__dica">Explore o acervo e toque no coração para guardar suas preferidas.</p>
+      <ion-button fill="outline" routerLink="/explorar">Explorar obras</ion-button>
+    </div>
+  }
+</ion-content>
+
+<!--
+  ============================================================
+  ANOTAÇÕES PARA A APRESENTAÇÃO — favorites.page.html
+  ============================================================
+  O QUE FAZ? Monta a tela de Favoritos usando @if (lista x mensagem de
+    "nenhum favorito"), @for (um card por obra), a diretiva appDestaqueObra
+    (destaque do card) e appImagemFallback (imagem padrão se falhar).
+  ONDE ESTÁ? Este arquivo; a lógica está em favorites.page.ts.
+  ONDE VER? Rota /favoritos.
+  ============================================================
+-->
