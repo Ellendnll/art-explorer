@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
-  IonBackButton, IonButton, IonIcon, IonSpinner, IonChip, IonLabel
+  IonBackButton, IonButton, IonIcon, IonSpinner, IonChip
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { heart, heartOutline } from 'ionicons/icons';
@@ -20,9 +20,9 @@ import { DescricaoCurtaPipe } from '../../shared/pipes/descricao-curta.pipe';
   imports: [
     CommonModule,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
-    IonBackButton, IonButton, IonIcon, IonSpinner, IonChip, IonLabel,
+    IonBackButton, IonButton, IonIcon, IonSpinner, IonChip,
     TitleCasePipe, UpperCasePipe,
-    SeculoPipe, DescricaoCurtaPipe,
+    SeculoPipe, DescricaoCurtaPipe
   ],
   templateUrl: './details.page.html',
   styleUrls: ['./details.page.scss']
@@ -33,22 +33,21 @@ export class DetailsPage implements OnInit {
   private obrasService = inject(ObrasService);
   private favoritosService = inject(FavoritosService);
 
-  obra: Artwork | null = null;
-  carregando = true;
-  erro = false;
-  favorito = false;
+  obra = signal<Artwork | null>(null);
+  carregando = signal(true);
+  erro = signal(false);
+  favorito = signal(false);
 
   constructor() {
     addIcons({ heart, heartOutline });
   }
 
   ngOnInit(): void {
-    // Lê o parâmetro :id da rota /detalhes/:id
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (!id) {
-      this.erro = true;
-      this.carregando = false;
+      this.erro.set(true);
+      this.carregando.set(false);
       return;
     }
 
@@ -56,27 +55,27 @@ export class DetailsPage implements OnInit {
   }
 
   private carregarObra(id: number): void {
-    this.carregando = true;
-    this.erro = false;
+    this.carregando.set(true);
+    this.erro.set(false);
 
     this.obrasService.getArtworkById(id).subscribe({
       next: (obra) => {
-        this.obra = obra;
-        this.favorito = this.favoritosService.isFavorite(obra.id);
-        this.carregando = false;
+        this.obra.set(obra);
+        this.favorito.set(this.favoritosService.isFavorite(obra.id));
+        this.carregando.set(false);
       },
       error: () => {
-        this.erro = true;
-        this.carregando = false;
+        this.obra.set(null);
+        this.erro.set(true);
+        this.carregando.set(false);
       }
     });
   }
 
   alternarFavorito(): void {
-    if (!this.obra) {
-      return;
-    }
-    this.favoritosService.toggleFavorite(this.obra);
-    this.favorito = this.favoritosService.isFavorite(this.obra.id);
+    const obra = this.obra();
+    if (!obra) return;
+    this.favoritosService.toggleFavorite(obra);
+    this.favorito.set(this.favoritosService.isFavorite(obra.id));
   }
 }
