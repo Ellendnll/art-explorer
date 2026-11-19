@@ -13,6 +13,7 @@ import { FavoritosService } from '../../core/services/favoritos.service';
 import { Artwork } from '../../core/models/artwork.model';
 import { SeculoPipe } from '../../shared/pipes/seculo.pipe';
 import { DescricaoCurtaPipe } from '../../shared/pipes/descricao-curta.pipe';
+import { BottomMenuComponent } from '../../shared/components/bottom-menu/bottom-menu.component';
 
 @Component({
   selector: 'app-details',
@@ -22,7 +23,8 @@ import { DescricaoCurtaPipe } from '../../shared/pipes/descricao-curta.pipe';
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
     IonBackButton, IonButton, IonIcon, IonSpinner, IonChip,
     TitleCasePipe, UpperCasePipe,
-    SeculoPipe, DescricaoCurtaPipe
+    SeculoPipe, DescricaoCurtaPipe,
+    BottomMenuComponent,
   ],
   templateUrl: './details.page.html',
   styleUrls: ['./details.page.scss']
